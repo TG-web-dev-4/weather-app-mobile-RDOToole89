@@ -16,7 +16,7 @@ export const Footer = () => {
   );
 };
 
-const styles = (darkMode = false) =>
+const styles = (darkMode: boolean = false) =>
   StyleSheet.create({
     infoBar: {
       flexDirection: 'row',

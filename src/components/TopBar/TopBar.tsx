@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { fonts } from '../../constants/fonts';
 import { fontSizes, spacing } from '../../constants/sizes';
 import { DarkModeContext } from '../../context/DarkModeContext';
+import { ITopBar } from './topbar';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export const TopBar = ({ goBackToHomeScreen }) => {
+export const TopBar = ({ goBackToHomeScreen }: ITopBar) => {
   const { dark, toggleDark } = useContext(DarkModeContext);
 
   return (
@@ -40,13 +41,13 @@ export const TopBar = ({ goBackToHomeScreen }) => {
   );
 };
 
-const styles = (darkMode) =>
+const styles = (darkMode: boolean) =>
   StyleSheet.create({
     infoBar: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: spacing.sm,
+      paddingBottom: spacing.md,
       paddingHorizontal: spacing.lg,
       paddingTop: spacing.xxxl,
       backgroundColor: darkMode ? '#000' : 'hsla(200, 100%, 26%, 1)',

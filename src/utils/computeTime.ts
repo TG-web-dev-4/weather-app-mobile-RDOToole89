@@ -1,4 +1,4 @@
-export const computeTime = (cityName, offsetUTC) => {
+export const computeTime = (cityName: string, offsetUTC: number | string) => {
   // create new instance of Date
   const currentDate = new Date();
 
@@ -13,7 +13,7 @@ export const computeTime = (cityName, offsetUTC) => {
   return newDateInstance;
 };
 
-export const unixTimeStampCoverter = (timestamp) => {
+export const unixTimeStampCoverter = (timestamp: number) => {
   const dt = new Date(timestamp * 1000);
   let hr = dt.getHours();
   let m = '0' + dt.getMinutes();
@@ -22,7 +22,7 @@ export const unixTimeStampCoverter = (timestamp) => {
   return dt;
 };
 
-export const formatDate = (dateIsoString) => {
+export const formatDate = (dateIsoString: string) => {
   var d = new Date(dateIsoString),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate(),

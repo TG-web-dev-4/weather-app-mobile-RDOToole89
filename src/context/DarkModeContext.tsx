@@ -1,12 +1,17 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, FC } from 'react';
+
+interface IDarkModeContext {
+  dark: boolean;
+  toggleDark?: () => void;
+}
 
 const defaultState = {
   dark: false,
 };
 
-export const DarkModeContext = createContext(defaultState);
+export const DarkModeContext = createContext<IDarkModeContext>(defaultState);
 
-export const DarkModeProvider = ({ children }) => {
+export const DarkModeProvider: FC = ({ children }) => {
   const [dark, setDark] = useState(defaultState.dark);
 
   const toggleDark = () => {

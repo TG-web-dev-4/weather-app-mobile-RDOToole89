@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { WeatherData } from '../../types/app';
 import { digitToString } from '../../utils/toDigit';
+import { ICityScreen } from './cityscreen';
 import { days } from '../../utils/days';
 import { computeTime } from '../../utils/computeTime';
 import { fontSizes, spacing } from '../../constants/sizes';
 import { CityDetails } from '../CityDetails/CityDetails';
 import { generateBoxShadowStyle } from '../../utils/boxShadow';
 import { fonts } from '../../constants/fonts';
+// import { useNavigation } from '@react-navigation/native';
 
 export const CityScreen = ({
   weatherData,
@@ -15,15 +18,19 @@ export const CityScreen = ({
   cityDetailsActive,
   activateCityDetails,
   goBackToHomeScreen,
-}) => {
+}: ICityScreen) => {
+  // const navigation = useNavigation();
+
+  // Destructure all the data needed for the UI
   const {
     coord: coordinates,
     main: temperatures,
     name: cityName,
     weather: weatherInfo,
     timezone,
-  } = weatherData;
+  }: WeatherData = weatherData;
 
+  // converts the timezoneUTC offset to unix time stamp for conversion
   const timezoneUtcOffset = timezone / 3600;
 
   const { description, icon } = weatherInfo[0];
@@ -40,9 +47,12 @@ export const CityScreen = ({
     humidity,
   } = temperatures;
 
-  const weatherString = { uri: `http://openweathermap.org/img/wn/${icon}@2x.png` };
+  const weatherString = {
+    uri: `http://openweathermap.org/img/wn/${icon}@2x.png`,
+  };
 
   useEffect(() => {
+    // Changes the background gradient based on the current temperature
     handleTempGradient(currentTemperature);
   }, [currentTemperature]);
 
@@ -79,7 +89,14 @@ export const CityScreen = ({
           <Text>{humidity}</Text>
         </View>
       </View>
-      <TouchableOpacity style={{ marginBottom: spacing.md }} onPress={activateCityDetails}>
+      <TouchableOpacity
+        style={{ marginBottom: spacing.md }}
+        // passing route params
+        // onPress={() =>
+        //   //@ts-ignore
+        //   // navigation.navigate('CityDetails', { cityName, coordinates })
+        // }
+        onPress={activateCityDetails}>
         <Text style={styles.link}>7 Day Forecast</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={goBackToHomeScreen}>

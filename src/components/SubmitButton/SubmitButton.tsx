@@ -1,11 +1,16 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { spacing } from '../../constants/sizes';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { ISubmitButton } from './submitbutton';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/DarkModeContext';
 
-export const SubmitButton = ({ style = {}, textStyle = {}, size = 125, ...props }) => {
+export const SubmitButton = ({
+  style = {},
+  textStyle = {},
+  size = 125,
+  ...props
+}: ISubmitButton) => {
   const { dark } = useContext(DarkModeContext);
 
   return (
@@ -15,7 +20,7 @@ export const SubmitButton = ({ style = {}, textStyle = {}, size = 125, ...props 
   );
 };
 
-const styles = (size) =>
+const styles = (size: number) =>
   StyleSheet.create({
     submitBtn: {
       justifyContent: 'center',

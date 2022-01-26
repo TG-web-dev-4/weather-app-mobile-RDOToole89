@@ -1,40 +1,34 @@
-import { useEffect, useState } from 'react';
+import { API_KEY } from '@env';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { WeatherDataDetails } from '../../types/app.d';
 import { Accordion } from '../../components/Accordion/Accordion';
 import { buildOneCallForecastUrl } from '../../services/weatherApi';
 import { fontSizes, spacing } from '../../constants/sizes';
-import { env } from '../../../env';
+import useFetch from '../../hooks/useFetch';
 
-export const CityDetails = ({ coordinates, goBackToHomeScreen, ...props }) => {
-  const [weatherData, setWeatherData] = useState(null);
+export const CityDetails = ({
+  coordinates,
+  goBackToHomeScreen,
+  route,
+  ...props
+}: ICityDetails) => {
+  // console.log('ROUTEPARAMS', route);
 
+  // Grabs lat and lon and the data to exclude from the API request
   const exludeString = 'current,minutely,hourly,alerts';
-
   const { lat: latitude, lon: longitude } = coordinates;
 
+  // Builds the API_URL based on the the above variables
   const API_URL = buildOneCallForecastUrl(
     latitude.toString(),
     longitude.toString(),
     exludeString,
     'metric',
-    env.API_KEY
+    API_KEY
   );
 
-  useEffect(() => {
-    if (API_URL) {
-      const fetchWeatherData = async () => {
-        try {
-          const response = await fetch(API_URL);
-          const data = await response.json();
-          setWeatherData(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      fetchWeatherData();
-    }
-  }, [API_URL]);
+  // Fetch the data with useFetch
+  const { data } = useFetch<WeatherDataDetails>(API_URL);
 
   return (
     <>
@@ -43,14 +37,21 @@ export const CityDetails = ({ coordinates, goBackToHomeScreen, ...props }) => {
           <Text style={styles.headingPrimary}>{props.cityName}</Text>
           <Text style={styles.headingSecondary}>7 DAY FORECAST</Text>
         </View>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          {weatherData &&
-            weatherData?.daily.map((day, i) => {
+        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+          {data &&
+            data.daily.map((day: WeatherDataPerDay, i: number) => {
               if (i >= 7) return;
-              return <Accordion key={day.dt + Math.random() + i} weatherDataPerDay={day} />;
+              return (
+                <Accordion
+                  key={day.dt + Math.random() + i}
+                  weatherDataPerDay={day}
+                />
+              );
             })}
         </View>
-        <TouchableOpacity style={{ marginVertical: spacing.md }} onPress={goBackToHomeScreen}>
+        <TouchableOpacity
+          style={{ marginVertical: spacing.md }}
+          onPress={goBackToHomeScreen}>
           <Text style={styles.link}>Go back to home</Text>
         </TouchableOpacity>
       </View>

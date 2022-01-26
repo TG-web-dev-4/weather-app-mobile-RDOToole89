@@ -1,12 +1,12 @@
 import { View, TextInput, StyleSheet } from 'react-native';
 import { SubmitButton } from '../SubmitButton/SubmitButton';
 import { spacing } from '../../constants/sizes';
-
+import { ISearchBar } from './searchbar';
 import { fonts } from '../../constants/fonts';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/DarkModeContext';
 
-export const SearchBar = ({ searchInput, handleSearchOnChange, onClickSetCity }) => {
+export const SearchBar = ({ searchInput, handleSearchOnChange, onClickSetCity }: ISearchBar) => {
   const { dark } = useContext(DarkModeContext);
 
   return (
@@ -22,7 +22,7 @@ export const SearchBar = ({ searchInput, handleSearchOnChange, onClickSetCity })
   );
 };
 
-const styles = (darkMode = false) =>
+const styles = (darkMode: boolean = false) =>
   StyleSheet.create({
     inputContainer: {
       flexDirection: 'row',
